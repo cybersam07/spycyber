@@ -167,11 +167,17 @@ function DashboardCards({ triggerError }: { triggerError: () => void }) {
           </div>
         </div>
         {/* Map GIF Card as full-height, 2nd column */}
-        <div className="bg-white p-6 rounded-xl shadow-xl border border-gray-100 flex flex-col items-center justify-center w-full">
-          <div className="font-semibold text-lg mb-4 self-start">Last Known Locations</div>
-          <img src="./src/tiwa.gif" alt="Map" className="w-full max-w-2xl rounded-lg object-cover border mx-auto shadow" style={{ minHeight: 180 }} />
-          <div className="text-xs text-gray-500 mt-3 self-start">Activity map based on recent signals</div>
-        </div>
+        <div className="bg-white p-6 rounded-xl shadow-xl border border-gray-100 flex flex-col w-full">
+  <div className="font-semibold text-lg mb-4">Last Known Locations</div>
+  <div className="aspect-video w-full max-w-2xl mx-auto overflow-hidden rounded-lg border shadow">
+    <img
+      src="/src/tiwa.gif"
+      alt="Map"
+      className="w-full h-full object-cover transition hover:scale-110"
+    />
+  </div>
+  <div className="text-xs text-gray-500 mt-3">Activity map based on recent signals</div>
+</div>
       </div>
     </div>
   );
