@@ -34,18 +34,25 @@ function getLangOptions() {
   return langs.filter((v, i, a) => a.indexOf(v) === i);
 }
 
-function Header({ lang, setLang }: { lang: string, setLang: (lang: string) => void }) {
+function Header({ lang, setLang, toggleSidebar }: { lang: string, setLang: (lang: string) => void, toggleSidebar: () => void }) {
   return (
-    <header className="flex items-center justify-between px-8 py-3 border-b border-gray-200 bg-white">
+    <header className="flex items-center justify-between px-4 md:px-8 py-3 border-b border-gray-200 bg-white">
       <div className="flex items-center space-x-2">
+        <button 
+          className="md:hidden p-1 mr-1"
+          onClick={toggleSidebar}
+          aria-label="Toggle menu"
+        >
+          ☰
+        </button>
         <div className="h-7 w-7 rounded-full bg-[#2563eb] flex items-center justify-center">
           <svg viewBox="0 0 20 20" fill="white" width="18" height="18"><circle cx="10" cy="10" r="9" /></svg>
         </div>
-        <span className="text-2xl font-bold text-[#2563eb] tracking-tight" style={{ letterSpacing: '1px' }}>SPYCYBER</span>
+        <span className="text-xl md:text-2xl font-bold text-[#2563eb] tracking-tight" style={{ letterSpacing: '1px' }}>SPYCYBER</span>
       </div>
       <div className="flex items-center space-x-2">
         <select
-          className="border border-blue-200 rounded px-2 py-1 text-sm text-[#2563eb] bg-white"
+          className="border border-blue-200 rounded px-2 py-1 text-xs md:text-sm text-[#2563eb] bg-white"
           value={lang}
           onChange={e => setLang(e.target.value)}
         >
@@ -56,25 +63,25 @@ function Header({ lang, setLang }: { lang: string, setLang: (lang: string) => vo
   );
 }
 
-function Sidebar({ current, onNav, dateStr }: { current: string, onNav: (item: string) => void, dateStr: string }) {
+function Sidebar({ current, onNav, dateStr, isOpen }: { current: string, onNav: (item: string) => void, dateStr: string, isOpen: boolean }) {
   return (
-    <aside className="flex flex-col w-64 h-full bg-[#f8f8f8] border-r border-gray-200">
+    <aside className={`${isOpen ? 'block' : 'hidden'} md:block flex-col w-full md:w-64 h-full bg-[#f8f8f8] border-r border-gray-200 fixed md:static z-40`}>
       <div className="p-4 border-b border-gray-200">
         <div className="text-xs text-gray-400">Updated: {dateStr}</div>
-        <div className="mt-6 flex items-center">
-          <span className="inline-flex items-center text-base font-semibold text-gray-900"><span className="mr-2">📱</span>Galaxy S10</span>
+        <div className="mt-4 md:mt-6 flex items-center">
+          <span className="inline-flex items-center text-sm md:text-base font-semibold text-gray-900"><span className="mr-2">📱</span>Galaxy S10</span>
         </div>
       </div>
-      <nav className="mt-6 flex-1">
+      <nav className="mt-4 md:mt-6 flex-1 overflow-y-auto">
         <ul>
           {NAV_ITEMS.map(({ name, icon, hot }) => (
             <li key={name}>
               <button
-                className={`w-full text-left flex items-center px-6 py-2 text-gray-700 hover:bg-[#e8f0fe] relative transition-colors ${name === current ? "font-semibold text-[#2563eb] bg-[#e8f0fe]" : ""}`}
+                className={`w-full text-left flex items-center px-4 md:px-6 py-2 text-sm md:text-base text-gray-700 hover:bg-[#e8f0fe] relative transition-colors ${name === current ? "font-semibold text-[#2563eb] bg-[#e8f0fe]" : ""}`}
                 onClick={() => onNav(name)}
                 disabled={name === current}
               >
-                <span className="mr-3 text-xl">{icon}</span>
+                <span className="mr-3 text-lg md:text-xl">{icon}</span>
                 {name}
                 {badge(hot)}
               </button>
@@ -118,66 +125,67 @@ function DashboardCards({ triggerError }: { triggerError: () => void }) {
     });
   }, []);
   return (
-    <div className="flex flex-col px-8 py-8 gap-7 w-full">
-      <h1 className="font-bold text-2xl text-gray-800 mb-2">Dashboard</h1>
+    <div className="flex flex-col px-4 md:px-8 py-4 md:py-8 gap-4 md:gap-7 w-full">
+      <h1 className="font-bold text-xl md:text-2xl text-gray-800 mb-1 md:mb-2">Dashboard</h1>
       {/* Row 1 */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 w-full">
         {/* Device Info */}
-        <div className="bg-white p-6 rounded-xl shadow-xl border border-gray-100 flex flex-col">
-          <div className="font-semibold text-lg mb-2">Device information</div>
+        <div className="bg-white p-4 md:p-6 rounded-xl shadow-xl border border-gray-100 flex flex-col">
+          <div className="font-semibold text-base md:text-lg mb-2">Device information</div>
           <div className="flex items-center mb-2"><span className="text-[#2563eb] mr-2">📱</span> <span className="font-medium">Device Model</span> : Galaxy S10</div>
           <div className="flex items-center mb-2"><span className="text-[#2563eb] mr-2">💾</span> <span className="font-medium">Device OS Version</span> : 10.0</div>
           <div className="flex items-center mb-2"><span className="text-[#2563eb] mr-2">💾</span> <span className="font-medium">Zipcode</span> : 10.0</div>
-          <div className="text-xs text-gray-400 mt-2">* The device information will sync uevery 30 minutes.</div>
+          <div className="text-xs text-gray-400 mt-2">* The device information will sync every 30 minutes.</div>
         </div>
         {/* Recent Calls Trigger Card */}
-        <button type="button" onClick={triggerError} className="bg-white p-6 rounded-xl shadow-xl border border-gray-100 flex flex-col focus:outline-none hover:shadow-2xl transition-shadow group cursor-pointer">
-          <div className="font-semibold text-lg mb-2 flex items-center justify-between">Recent 5 most calling contacts <span className="ml-2 group-hover:rotate-90 transition-transform">▶</span></div>
+        <button type="button" onClick={triggerError} className="bg-white p-4 md:p-6 rounded-xl shadow-xl border border-gray-100 flex flex-col focus:outline-none hover:shadow-2xl transition-shadow group cursor-pointer">
+          <div className="font-semibold text-base md:text-lg mb-2 flex items-center justify-between">Recent 5 most calling contacts <span className="ml-2 group-hover:rotate-90 transition-transform">▶</span></div>
           <ul className="space-y-2 opacity-40 pointer-events-none select-none">
             <li className="flex items-center space-x-3">
-              <div className="h-7 w-7 rounded-full bg-gray-200" />
-              <div className="flex-1"><span className="font-semibold">Martin</span> <span className="text-xs text-gray-400">429-748-1384</span></div>
+              <div className="h-6 w-6 md:h-7 md:w-7 rounded-full bg-gray-200" />
+              <div className="flex-1"><span className="font-semibold text-sm md:text-base">Martin</span> <span className="text-xs text-gray-400">429-748-1384</span></div>
               <span className="text-xs text-gray-500">69</span>
             </li>
           </ul>
         </button>
         {/* Recent Messages Trigger Card */}
-        <button type="button" onClick={triggerError} className="bg-white p-6 rounded-xl shadow-xl border border-gray-100 flex flex-col focus:outline-none hover:shadow-2xl transition-shadow group cursor-pointer">
-          <div className="font-semibold text-lg mb-2 flex items-center justify-between">Recent 5 most messages <span className="ml-2 group-hover:rotate-90 transition-transform">▶</span></div>
+        <button type="button" onClick={triggerError} className="bg-white p-4 md:p-6 rounded-xl shadow-xl border border-gray-100 flex flex-col focus:outline-none hover:shadow-2xl transition-shadow group cursor-pointer">
+          <div className="font-semibold text-base md:text-lg mb-2 flex items-center justify-between">Recent 5 most messages <span className="ml-2 group-hover:rotate-90 transition-transform">▶</span></div>
           <ul className="space-y-2 opacity-40 pointer-events-none select-none">
             <li className="flex items-center space-x-3">
-              <div className="h-7 w-7 rounded-full bg-gray-200" />
-              <div className="flex-1"><span className="font-semibold">John Doe</span> <span className="text-xs text-gray-400">705-234-1234</span></div>
+              <div className="h-6 w-6 md:h-7 md:w-7 rounded-full bg-gray-200" />
+              <div className="flex-1"><span className="font-semibold text-sm md:text-base">John Doe</span> <span className="text-xs text-gray-400">705-234-1234</span></div>
               <span className="text-xs text-gray-500">1</span>
             </li>
           </ul>
         </button>
       </div>
       {/* Row 2 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 w-full">
         {/* Phone Activities */}
-        <div className="bg-white p-6 rounded-xl shadow-xl border border-gray-100 flex flex-col">
-          <div className="font-semibold text-lg mb-2">Phone Activities</div>
+        <div className="bg-white p-4 md:p-6 rounded-xl shadow-xl border border-gray-100 flex flex-col">
+          <div className="font-semibold text-base md:text-lg mb-2">Phone Activities</div>
           <div className="space-y-2">
-            <div className="flex items-center"><span className="text-[#2563eb] text-xl mr-2">📞</span> <span className="font-bold flex-1">Calls</span><span className="w-24 h-2 bg-blue-100 rounded-full overflow-hidden mx-2"><span className="h-2 bg-[#2563eb] rounded-full block" style={{ width: `${activity.calls / 2}%` }}></span></span><span className="text-xs text-gray-700">{activity.calls}</span></div>
-            <div className="flex items-center"><span className="text-[#2563eb] text-xl mr-2">💬</span> <span className="font-bold flex-1">Messages</span><span className="w-24 h-2 bg-blue-100 rounded-full overflow-hidden mx-2"><span className="h-2 bg-[#2563eb] rounded-full block" style={{ width: `${activity.msgs * 2}%` }}></span></span><span className="text-xs text-gray-700">{activity.msgs}</span></div>
-            <div className="flex items-center"><span className="text-[#2563eb] text-xl mr-2">📍</span> <span className="font-bold flex-1">Locations</span><span className="w-24 h-2 bg-blue-100 rounded-full overflow-hidden mx-2"><span className="h-2 bg-[#2563eb] rounded-full block" style={{ width: `${activity.locations * 10}%` }}></span></span><span className="text-xs text-gray-700">{activity.locations}</span></div>
-            <div className="flex items-center"><span className="text-[#2563eb] text-xl mr-2">🖼️</span> <span className="font-bold flex-1">Photos</span><span className="w-24 h-2 bg-blue-100 rounded-full overflow-hidden mx-2"><span className="h-2 bg-[#2563eb] rounded-full block" style={{ width: `${activity.photos * 10}%` }}></span></span><span className="text-xs text-gray-700">{activity.photos}</span></div>
-            <div className="flex items-center"><span className="text-[#2563eb] text-xl mr-2">🎥</span> <span className="font-bold flex-1">Videos</span><span className="w-24 h-2 bg-blue-100 rounded-full overflow-hidden mx-2"><span className="h-2 bg-[#2563eb] rounded-full block" style={{ width: `${activity.videos * 5}%` }}></span></span><span className="text-xs text-gray-700">{activity.videos}</span></div>
+            <div className="flex items-center"><span className="text-[#2563eb] text-lg md:text-xl mr-2">📞</span> <span className="font-bold flex-1 text-sm md:text-base">Calls</span><span className="w-16 md:w-24 h-2 bg-blue-100 rounded-full overflow-hidden mx-2"><span className="h-2 bg-[#2563eb] rounded-full block" style={{ width: `${activity.calls / 2}%` }}></span></span><span className="text-xs text-gray-700">{activity.calls}</span></div>
+            <div className="flex items-center"><span className="text-[#2563eb] text-lg md:text-xl mr-2">💬</span> <span className="font-bold flex-1 text-sm md:text-base">Messages</span><span className="w-16 md:w-24 h-2 bg-blue-100 rounded-full overflow-hidden mx-2"><span className="h-2 bg-[#2563eb] rounded-full block" style={{ width: `${activity.msgs * 2}%` }}></span></span><span className="text-xs text-gray-700">{activity.msgs}</span></div>
+            <div className="flex items-center"><span className="text-[#2563eb] text-lg md:text-xl mr-2">📍</span> <span className="font-bold flex-1 text-sm md:text-base">Locations</span><span className="w-16 md:w-24 h-2 bg-blue-100 rounded-full overflow-hidden mx-2"><span className="h-2 bg-[#2563eb] rounded-full block" style={{ width: `${activity.locations * 10}%` }}></span></span><span className="text-xs text-gray-700">{activity.locations}</span></div>
+            <div className="flex items-center"><span className="text-[#2563eb] text-lg md:text-xl mr-2">🖼️</span> <span className="font-bold flex-1 text-sm md:text-base">Photos</span><span className="w-16 md:w-24 h-2 bg-blue-100 rounded-full overflow-hidden mx-2"><span className="h-2 bg-[#2563eb] rounded-full block" style={{ width: `${activity.photos * 10}%` }}></span></span><span className="text-xs text-gray-700">{activity.photos}</span></div>
+            <div className="flex items-center"><span className="text-[#2563eb] text-lg md:text-xl mr-2">🎥</span> <span className="font-bold flex-1 text-sm md:text-base">Videos</span><span className="w-16 md:w-24 h-2 bg-blue-100 rounded-full overflow-hidden mx-2"><span className="h-2 bg-[#2563eb] rounded-full block" style={{ width: `${activity.videos * 5}%` }}></span></span><span className="text-xs text-gray-700">{activity.videos}</span></div>
           </div>
         </div>
-        {/* Map GIF Card as full-height, 2nd column */}
-        <div className="bg-white p-6 rounded-xl shadow-xl border border-gray-100 flex flex-col w-full">
-  <div className="font-semibold text-lg mb-4">Last Known Locations</div>
-  <div className="aspect-video w-full max-w-2xl mx-auto overflow-hidden rounded-lg border shadow">
-    <img 
-      src="/tiwa.gif" 
-      alt="Target location activity map"
-      className="w-full h-full object-cover transition hover:scale-110"
-    />
-  </div>
-  <div className="text-xs text-gray-500 mt-3">Activity map based on recent signals</div>
-</div>
+        {/* Map GIF Card */}
+        <div className="bg-white p-4 md:p-6 rounded-xl shadow-xl border border-gray-100 flex flex-col w-full">
+          <div className="font-semibold text-base md:text-lg mb-3 md:mb-4">Last Known Locations</div>
+          <div className="aspect-video w-full mx-auto overflow-hidden rounded-lg border shadow">
+            <img 
+              src="/tiwa.gif" 
+              alt="Target location activity map"
+              className="w-full h-full object-cover transition hover:scale-110"
+              loading="lazy"
+            />
+          </div>
+          <div className="text-xs text-gray-500 mt-2 md:mt-3">Activity map based on recent signals</div>
+        </div>
       </div>
     </div>
   );
@@ -185,8 +193,9 @@ function DashboardCards({ triggerError }: { triggerError: () => void }) {
 
 function Footer() {
   return (
-    <footer className="flex items-center justify-center px-4 md:px-8 py-4 border-t border-gray-200 bg-[#f8f8f8] mt-auto">
-      <span className="text-red-600 line-through text-lg font-bold">Amount: $400</span>
+    <footer className="flex items-center justify-center px-4 md:px-8 py-3 md:py-4 border-t border-gray-200 bg-[#f8f8f8] mt-auto">
+      The price for this new server has been reduced to $300
+      <span className="text-red-600 line-through text-base md:text-lg font-bold">Amount: $400</span>
     </footer>
   );
 }
@@ -195,15 +204,15 @@ function ErrorModal({ onClose }: { onClose: () => void }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="absolute inset-0 backdrop-blur-sm bg-black/40"></div>
-      <div className="relative z-10 bg-white rounded-lg shadow-lg p-8 max-w-xs w-full text-center">
-        <h2 className="text-xl font-bold text-blue-700 mb-4">Access Restricted</h2>
-        <p className="mb-6 text-gray-700">This feature is not available right now.<br />Please contact your administrator.</p>
+      <div className="relative z-10 bg-white rounded-lg shadow-lg p-6 md:p-8 max-w-xs w-full text-center">
+        <h2 className="text-lg md:text-xl font-bold text-blue-700 mb-3 md:mb-4">Access Restricted</h2>
+        <p className="mb-4 md:mb-6 text-sm md:text-base text-gray-700">Third Party Access Detected.<br />Please contact your administrator.</p>
         <a
-          href="mailto:admin@spycyber.com"
-          className="inline-block bg-[#2563eb] text-white px-6 py-2 rounded hover:bg-blue-800 font-semibold"
+          href="mailto:hackspycyber@gmail.com"
+          className="inline-block bg-[#2563eb] text-white px-4 md:px-6 py-1 md:py-2 rounded hover:bg-blue-800 font-semibold text-sm md:text-base"
         >Contact Administrator</a>
         <button
-          className="block w-full mt-4 text-[#2563eb] underline font-semibold"
+          className="block w-full mt-3 md:mt-4 text-[#2563eb] underline font-semibold text-sm md:text-base"
           onClick={onClose}
         >Go Back to Dashboard</button>
       </div>
@@ -221,18 +230,18 @@ function LoginOverlay({ onLogin }: { onLogin: () => void }) {
   }
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-      <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-xl p-8 max-w-xs w-full text-center flex flex-col gap-4">
-        <h2 className="text-xl font-bold text-blue-700 mb-2">Login Required</h2>
-        <p className="text-gray-600 text-sm mb-2">Enter your access key to continue.</p>
+      <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-xl p-6 md:p-8 max-w-xs w-full text-center flex flex-col gap-3 md:gap-4">
+        <h2 className="text-lg md:text-xl font-bold text-blue-700 mb-1 md:mb-2">Login Required</h2>
+        <p className="text-gray-600 text-xs md:text-sm mb-1 md:mb-2">Enter your access key to continue.</p>
         <input
           type="password"
           value={input}
           autoFocus
           onChange={e => { setInput(e.target.value); setError(""); }}
           placeholder="Enter key"
-          className="border border-blue-200 rounded px-3 py-2 outline-[#2563eb] text-center focus:ring-2 focus:ring-blue-200"
+          className="border border-blue-200 rounded px-3 py-1 md:py-2 outline-[#2563eb] text-center focus:ring-2 focus:ring-blue-200 text-sm md:text-base"
         />
-        <button className="bg-[#2563eb] text-white px-6 py-2 rounded font-bold hover:bg-blue-800 transition-colors mt-2" type="submit">Login</button>
+        <button className="bg-[#2563eb] text-white px-4 md:px-6 py-1 md:py-2 rounded font-bold hover:bg-blue-800 transition-colors mt-1 md:mt-2 text-sm md:text-base" type="submit">Login</button>
         {error && <div className="text-red-600 text-xs mt-1">{error}</div>}
       </form>
     </div>
@@ -246,6 +255,7 @@ function App() {
   const [dateStr, setDateStr] = useState(dayjs().format("MMM DD YYYY HH:mm:ss"));
   const [authed, setAuthed] = useState(false);
   const [isClient, setIsClient] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -262,14 +272,15 @@ function App() {
     } else {
       setShowError(true);
     }
+    setSidebarOpen(false); // Close sidebar on mobile after navigation
   }
 
   return (
     <div className="h-screen flex flex-col">
-      <Header lang={lang} setLang={setLang} />
-      <div className="flex flex-1 overflow-hidden bg-[#f2f4f7]">
-        <Sidebar current={current} onNav={handleNav} dateStr={dateStr} />
-        <main className={`flex-1 overflow-y-auto transition-all p-2 md:p-0 md:pt-0 relative ${(showError || !authed) ? 'pointer-events-none select-none filter blur-sm' : ''}`}>
+      <Header lang={lang} setLang={setLang} toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+      <div className="flex flex-1 overflow-hidden bg-[#f2f4f7] relative">
+        <Sidebar current={current} onNav={handleNav} dateStr={dateStr} isOpen={sidebarOpen} />
+        <main className={`flex-1 overflow-y-auto transition-all p-2 md:p-0 md:pt-0 relative ${(showError || !authed) ? 'pointer-events-none select-none filter blur-sm' : ''} ${sidebarOpen ? 'ml-0 md:ml-0' : 'ml-0 md:ml-64'}`}>
           {current === "Dashboard" && <DashboardCards triggerError={() => setShowError(true)} />}
         </main>
         {showError && <ErrorModal onClose={() => { setShowError(false); setCurrent("Dashboard"); }} />}
