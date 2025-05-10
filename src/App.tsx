@@ -170,7 +170,9 @@ function DashboardCards({ triggerError }: { triggerError: () => void }) {
         <div className="bg-white p-6 rounded-xl shadow-xl border border-gray-100 flex flex-col w-full">
   <div className="font-semibold text-lg mb-4">Last Known Locations</div>
   <div className="aspect-video w-full max-w-2xl mx-auto overflow-hidden rounded-lg border shadow">
-    <img src="./images/tiwa.gif" alt=""
+    <img 
+      src="/tiwa.gif" 
+      alt="Target location activity map"
       className="w-full h-full object-cover transition hover:scale-110"
     />
   </div>
