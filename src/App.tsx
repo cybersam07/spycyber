@@ -195,7 +195,7 @@ function Footer() {
   return (
     <footer className="flex items-center justify-center px-4 md:px-8 py-3 md:py-4 border-t border-gray-200 bg-[#f8f8f8] mt-auto">
       The price for this new server has been reduced to $300
-      <span className="text-red-600 line-through text-base md:text-lg font-bold">Amount: $400</span>
+      <span className="text-red-600 line-through text-base md:text-lg font-bold"> $400</span>
     </footer>
   );
 }
