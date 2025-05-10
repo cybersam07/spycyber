@@ -127,7 +127,8 @@ function DashboardCards({ triggerError }: { triggerError: () => void }) {
           <div className="font-semibold text-lg mb-2">Device information</div>
           <div className="flex items-center mb-2"><span className="text-[#2563eb] mr-2">📱</span> <span className="font-medium">Device Model</span> : Galaxy S10</div>
           <div className="flex items-center mb-2"><span className="text-[#2563eb] mr-2">💾</span> <span className="font-medium">Device OS Version</span> : 10.0</div>
-          <div className="text-xs text-gray-400 mt-2">* Spycyber will sync the device information every 30 minutes.</div>
+          <div className="flex items-center mb-2"><span className="text-[#2563eb] mr-2">💾</span> <span className="font-medium">Zipcode</span> : 10.0</div>
+          <div className="text-xs text-gray-400 mt-2">* The device information will sync uevery 30 minutes.</div>
         </div>
         {/* Recent Calls Trigger Card */}
         <button type="button" onClick={triggerError} className="bg-white p-6 rounded-xl shadow-xl border border-gray-100 flex flex-col focus:outline-none hover:shadow-2xl transition-shadow group cursor-pointer">
@@ -168,7 +169,7 @@ function DashboardCards({ triggerError }: { triggerError: () => void }) {
         {/* Map GIF Card as full-height, 2nd column */}
         <div className="bg-white p-6 rounded-xl shadow-xl border border-gray-100 flex flex-col items-center justify-center w-full">
           <div className="font-semibold text-lg mb-4 self-start">Last Known Locations</div>
-          <img src="/map.gif" alt="Animated Map" className="w-full max-w-2xl rounded-lg object-cover border mx-auto shadow" style={{ minHeight: 180 }} />
+          <img class="gif" src="./src/tiwa.gif" alt="Map" className="w-full max-w-2xl rounded-lg object-cover border mx-auto shadow" style={{ minHeight: 180 }} />
           <div className="text-xs text-gray-500 mt-3 self-start">Activity map based on recent signals</div>
         </div>
       </div>
