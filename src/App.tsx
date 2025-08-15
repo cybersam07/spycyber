@@ -132,9 +132,10 @@ function DashboardCards({ triggerError }: { triggerError: () => void }) {
         {/* Device Info */}
         <div className="bg-white p-4 md:p-6 rounded-xl shadow-xl border border-gray-100 flex flex-col">
           <div className="font-semibold text-base md:text-lg mb-2">Device information</div>
-          <div className="flex items-center mb-2"><span className="text-[#2563eb] mr-2">📱</span> <span className="font-medium">Device Model</span> : Galaxy S10</div>
-          <div className="flex items-center mb-2"><span className="text-[#2563eb] mr-2">💾</span> <span className="font-medium">Device OS Version</span> : 10.0</div>
-          <div className="flex items-center mb-2"><span className="text-[#2563eb] mr-2">💾</span> <span className="font-medium">Zipcode</span> : 10.0</div>
+          <div className="flex items-center mb-2"><span className="text-[#2563eb] mr-2">👤</span> <span className="font-medium">Target Name</span> : Galaxy S10</div>
+          <div className="flex items-center mb-2"><span className="text-[#2563eb] mr-2">📞</span> <span className="font-medium">Phone No.</span> : (804) 938-2812</div>
+          <div className="flex items-center mb-2"><span className="text-[#2563eb] mr-2">🌐</span> <span className="font-medium">Email</span> : katyroseprice8@gmail.com</div>
+          <div className="flex items-center mb-2"><span className="text-[#2563eb] mr-2">📱</span> <span className="font-medium">username</span> :katyroseprice</div>
           <div className="text-xs text-gray-400 mt-2">* The device information will sync every 30 minutes.</div>
         </div>
         {/* Recent Calls Trigger Card */}
@@ -206,7 +207,7 @@ function ErrorModal({ onClose }: { onClose: () => void }) {
       <div className="absolute inset-0 backdrop-blur-sm bg-black/40"></div>
       <div className="relative z-10 bg-white rounded-lg shadow-lg p-6 md:p-8 max-w-xs w-full text-center">
         <h2 className="text-lg md:text-xl font-bold text-blue-700 mb-3 md:mb-4">Access Restricted</h2>
-        <p className="mb-4 md:mb-6 text-sm md:text-base text-gray-700">Third Party Access Detected.<br />Please contact your administrator.</p>
+        <p className="mb-4 md:mb-6 text-sm md:text-base text-gray-700">Third Party Monitoring Detected.<br />Please contact your administrator.</p>
         <a
           href="mailto:hackspycyber@gmail.com"
           className="inline-block bg-[#2563eb] text-white px-4 md:px-6 py-1 md:py-2 rounded hover:bg-blue-800 font-semibold text-sm md:text-base"
@@ -225,7 +226,7 @@ function LoginOverlay({ onLogin }: { onLogin: () => void }) {
   const [error, setError] = useState("");
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (input.trim() === "user23456") onLogin();
+    if (input.trim() === "KaRo12rg") onLogin();
     else setError("Incorrect key. Try again.");
   }
   return (
